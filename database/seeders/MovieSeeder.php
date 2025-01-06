@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Movie;
 use Carbon\Carbon;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class MovieSeeder extends Seeder
@@ -14,218 +13,193 @@ class MovieSeeder extends Seeder
      */
     public function run(): void
     {
-        $timestamp = time();
-
-        Movie::create([
-            'title' => 'FSDSS-918 [Uncensored Leaked]',
-            'description' => 'FSDSS-918 [Uncensored Leaked] A tropical erosthetician with plump boobs, Rin Yamitsu invites you to the exquisite world with sensual angles.',
-            'posted_date' =>Carbon::now(),
-            'duration' => 9102,
-            'view_count' => 0,
-            'rating_total' => 0,
-            'rating_count' => 0,
-            'language' => 'japan',
-            'released_year' => '2024-12-26',
-            'thumbnail_url' => 'https://cdn.avfever.net/images/8/48/fsdss-918-uncensored-leaked/cover.jpg' . '?t=' . $timestamp,
-            'video_url' => 'https://javplayer.me/e/2RP61N38?poster=https%3A%2F%2Fcdn.avfever.net%2Fimages%2F8%2F48%2Ffsdss-918-uncensored-leaked%2Fcover.jpg%3Ft%3D1735360148',
-            'is_featured' => false,
-            'genre_id' => 13,  // Example genre ID
-            'sub_genre_id' => 26, // Example sub-genre ID
-        ]);
 
 
-        // Movie::create([
-        //     'title' => ' FC2-PPV-4595451',
-        //     'description' => 'FC2-PPV-4595451 ♡Half price until 1/7 [Uncensored/Complete Amateur] A 52-year-old normal wife wants to have sex, so she succeeds in dieting and her bewitching beauty mature womanhood improves ⤴ Forget about everyday life and have intense intercourse with their tongues! - While being played with her asshole, she gets fucked hard with a very thick dick and is begging for creampie! - !',
-        //     'posted_date' =>Carbon::now(),
-        //     'duration' => 5380,
-        //     'view_count' => 0,
-        //     'rating_total' => 0,
-        //     'rating_count' => 0,
-        //     'language' => 'japan',
-        //     'released_year' => '2024-12-26',
-        //     'thumbnail_url' => 'https://cdn.avfever.net/images/8/48/fc2-ppv-4595451/cover.jpg' . '?t=' . $timestamp,
-        //     'video_url' => 'https://javplayer.me/e/8MWY5PLK?poster=https%3A%2F%2Fcdn.avfever.net%2Fimages%2F8%2F48%2Ffc2-ppv-4595451%2Fcover.jpg%3Ft%3D1735285087',
-        //     'is_featured' => true,
-        //     'genre_id' => 10,  // Example genre ID
-        //     'sub_genre_id' => 7, // Example sub-genre ID
-        // ]);
+        $movies = [
+            [
+                "id" => 242,
+                "title" => "Petite stepsister gets her tight pussy filled with cum after getting drilled in different positions",
+                "description" => "video",
+                "posted_date" => "2024-12-02 05:00:00",
+                "genre" => "russia",
+                "img_path" => "https://www.pornkut.com/get_file/0/2de85f004e62b96ee2668ab7a1ca0745f5933141b5/40000/40820/screenshots/4.jpg?t=1734619554",
+                "duration" => "724",
+                "view_count" => "9",
+                "rating_total" => "0",
+                "rating_count" => "1",
+                "url" => "https://www.pornkut.com/embed/40820"
+            ],
+            [
+                "id" => 243,
+                "title" => "Petite stepsister Chanel Shortcake gets her tight pussy drilled and mouth filled with cum",
+                "description" => "video",
+                "posted_date" => "2024-12-02 05:00:00",
+                "genre" => "russia",
+                "img_path" => "https://www.pornkut.com/get_file/0/c896a43c38f434c7b1e5538352bb480fa999931c2f/18000/18419/screenshots/9.jpg?t=1734619554",
+                "duration" => "751",
+                "view_count" => "10",
+                "rating_total" => "0",
+                "rating_count" => "1",
+                "url" => "https://www.pornkut.com/embed/18419"
+            ],
+            [
+                "id" => 244,
+                "title" => "SonyaXMark's wet T-shirt squirts while she gives a sloppy blowjob and gets her tight pussy pounded",
+                "description" => "video",
+                "posted_date" => "2024-12-02 05:00:00",
+                "genre" => "russia",
+                "img_path" => "https://www.pornkut.com/get_file/0/543deeb36fb9670e1c033901ee7e6bfd3e29039715/50000/50179/screenshots/2.jpg?t=1734619554",
+                "duration" => "812",
+                "view_count" => "3",
+                "rating_total" => "0",
+                "rating_count" => "1",
+                "url" => "https://www.pornkut.com/embed/50179"
+            ],
+            [
+                "id" => 245,
+                "title" => "CJ Miles gives a sloppy POV blowjob and gets her tight pussy pounded",
+                "description" => "video",
+                "posted_date" => "2024-12-02 05:00:00",
+                "genre" => "russia",
+                "img_path" => "https://www.pornkut.com/get_file/0/03d20424603faa76043b24127ef07424c6d62d0c5d/42000/42393/screenshots/9.jpg?t=1734619554",
+                "duration" => "733",
+                "view_count" => "7",
+                "rating_total" => "0",
+                "rating_count" => "1",
+                "url" => "https://www.pornkut.com/embed/42393"
+            ],
+            [
+                "id" => 246,
+                "title" => "Hiyouth gives her neighbor a sloppy blowjob and gets pounded doggy-style in POV",
+                "description" => "video",
+                "posted_date" => "2024-12-02 05:00:00",
+                "genre" => "russia",
+                "img_path" => "https://www.pornkut.com/get_file/0/9f5cb922103b6136088772d5132a9c05234463e6f6/40000/40553/screenshots/9.jpg?t=1734619554",
+                "duration" => "620",
+                "view_count" => "9",
+                "rating_total" => "0",
+                "rating_count" => "1",
+                "url" => "https://www.pornkut.com/embed/40553"
+            ],
+            [
+                "id" => 248,
+                "title" => "Creamy Spot gets off on riding a massive dildo on webcam",
+                "description" => "video",
+                "posted_date" => "2024-12-02 05:00:00",
+                "img_path" => "https://www.pornkut.com/get_file/0/6c4bf0765d36d9dad89c994b1fca59226ebebcef81/53000/53229/screenshots/2.jpg?t=1734619554",
+                "duration" => "718",
+                "view_count" => "3",
+                "rating_total" => "0",
+                "rating_count" => "1",
+                "url" => "https://www.pornkut.com/embed/53229"
+            ],
+            [
+                "id" => 249,
+                "title" => "Creamy Spot's bald pussy gets filled with cum while playing with a huge dildo in white stockings",
+                "description" => "video",
+                "posted_date" => "2024-12-02 05:00:00",
+                "genre" => "russia",
+                "img_path" => "https://www.pornkut.com/get_file/0/514a5eb7e8b4a2aa29ab74250fb4c08c1d9400ed3f/53000/53194/screenshots/1.jpg?t=1734619554",
+                "duration" => "748",
+                "view_count" => "7",
+                "rating_total" => "0",
+                "rating_count" => "1",
+                "url" => "https://www.pornkut.com/embed/53194"
+            ],
+            [
+                "id" => 191,
+                "title" => "Amateur Blonde Kid - Homemade Creampies Compilation",
+                "description" => "video",
+                "posted_date" => "2024-11-26 05:00:00",
+                "genre" => "russia",
+                "img_path" => "https://www.pornkut.com/get_file/0/9acf234682002a5b07f89da3ec80b248d83be5138c/56000/56915/screenshots/1.jpg?t=1734619554",
+                "duration" => "704",
+                "view_count" => "4",
+                "rating_total" => "0",
+                "rating_count" => "1",
+                "url" => "https://www.pornkut.com/embed/67098"
+            ],
+            [
+                "id" => 104,
+                "title" => "ချစ်စရာကြောင်",
+                "description" => "video",
+                "posted_date" => "2024-11-18 05:00:00",
+                "genre" => "russia",
+                "img_path" => "https://www.pornkut.com/get_file/0/7ed0cee88b49bb4009b0de1731fbb13560754d7c94/61000/61227/screenshots/4.jpg?t=1734619554",
+                "duration" => "950",
+                "view_count" => "47",
+                "rating_total" => "0",
+                "rating_count" => "1",
+                "url" => "https://rusoska.com/embed/188218"
+            ],
+            [
+                "id" => 105,
+                "title" => "ာရုံခံစားမှု Creampies၊ Squirting Passions နှင့် Monster Cock Adventures",
+                "description" => "video",
+                "posted_date" => "2024-11-18 05:00:00",
+                "genre" => "russia",
+                "img_path" => "https://www.pornkut.com/get_file/0/73ec97b61db3cc29f8c2d4db40f658e6045756a239/66000/66586/screenshots/1.jpg?t=1734619554",
+                "duration" => "533",
+                "view_count" => "33",
+                "rating_total" => "0",
+                "rating_count" => "1",
+                "url" => "https://www.pornkut.com/embed/66586"
+            ],
+            [
+                "id" => 106,
+                "title" => "စိုစွတ်သော Creamy Pussy",
+                "description" => "video",
+                "posted_date" => "2024-11-18 05:00:00",
+                "genre" => "russia",
+                "img_path" => "https://www.pornkut.com/get_file/0/f85d51063f5a05546e3f2819df0008a5a32547f3a8/65000/65698/screenshots/1.jpg?t=1734619554",
+                "duration" => "803",
+                "view_count" => "26",
+                "rating_total" => "0",
+                "rating_count" => "1",
+                "url" => "https://www.pornkut.com/embed/65698"
+            ],
+            [
+                "id" => 107,
+                "title" => "ဟယ်လိုရီပွဲတော်အတွင်း Creamy Spot သည် သူမ၏ တင်းကျပ်သော အပေါက်များကို",
+                "description" => "video",
+                "posted_date" => "2024-11-18 05:00:00",
+                "genre" => "russia",
+                "img_path" => "https://www.pornkut.com/get_file/0/52b112d552bfcc033f960c0e3a624fc74aace4fa85/64000/64769/screenshots/2.jpg?t=1734619554",
+                "duration" => "842",
+                "view_count" => "11",
+                "rating_total" => "0",
+                "rating_count" => "1",
+                "url" => "https://www.pornkut.com/embed/64769/"
+            ]
+        ];
+        
+        // You can now use the $data array in your PHP code.
+               
+               
 
-        // Movie::create([
-        //     'title' => ' FC2-PPV-4595376',
-        //     'description' => 'FC2-PPV-4595376 [Uncensored] Be careful not to get too excited! - 20 year old JD cums in her first AV! - ! - This is how I creampie at the end lol [Personal photography]',
-        //     'posted_date' =>Carbon::now(),
-        //     'duration' => 318,
-        //     'view_count' => 0,
-        //     'rating_total' => 0,
-        //     'rating_count' => 0,
-        //     'language' => 'japan',
-        //     'released_year' => '2024-12-26',
-        //     'thumbnail_url' => 'https://cdn.avfever.net/images/e/5e/fc2-ppv-4595376/cover.jpg' . '?t=' . $timestamp,
-        //     'video_url' => 'https://javplayer.me/e/25NZQG12?poster=https%3A%2F%2Fcdn.avfever.net%2Fimages%2Fe%2F5e%2Ffc2-ppv-4595376%2Fcover.jpg%3Ft%3D1735284912',
-        //     'is_featured' => true,
-        //     'genre_id' => 10,  // Example genre ID
-        //     'sub_genre_id' => 7, // Example sub-genre ID
-        // ]);
-
-        // Movie::create([
-        //     'title' => 'FC2-PPV-4595326',
-        //     'description' => 'FC2-PPV-4595326 [Nympho bitch body type] A serious angel with a height of 150 cm has arrived! - ! - A hard-working girl with excellent grades seeks healing and has intense creampie sex! - ! - [Ahegao face showing off too embarrassing]',
-        //     'posted_date' =>Carbon::now(),
-        //     'duration' => 4764,
-        //     'view_count' => 0,
-        //     'rating_total' => 0,
-        //     'rating_count' => 0,
-        //     'language' => 'japan',
-        //     'released_year' => '2024-12-26',
-        //     'thumbnail_url' => 'https://cdn.avfever.net/images/f/9f/fc2-ppv-4595326/cover.jpg' . '?t=' . $timestamp,
-        //     'video_url' => 'https://javplayer.me/e/2VOJ1ENK?poster=https%3A%2F%2Fcdn.avfever.net%2Fimages%2Ff%2F9f%2Ffc2-ppv-4595326%2Fcover.jpg%3Ft%3D1735284549',
-        //     'is_featured' => true,
-        //     'genre_id' => 10,  // Example genre ID
-        //     'sub_genre_id' => 7, // Example sub-genre ID
-        // ]);
-
-        // Movie::create([
-        //     'title' => ' FC2-PPV-3979725',
-        //     'description' => 'FC2-PPV-3979725 *Limited quantity for the first time* [Individual shot/Creampie] ☆ Plump "pure butt" ☆ Soccer club manager Mai 18 years old',
-        //     'posted_date' =>Carbon::now(),
-        //     'duration' => 3536,
-        //     'view_count' => 0,
-        //     'rating_total' => 0,
-        //     'rating_count' => 0,
-        //     'language' => 'japan',
-        //     'released_year' => '2023-10-30',
-        //     'thumbnail_url' => 'https://cdn.avfever.net/images/9/f9/fc2-ppv-3979725/cover.jpg' . '?t=' . $timestamp,
-        //     'video_url' => 'https://javplayer.me/e/98NPNQQ2?poster=https%3A%2F%2Fcdn.avfever.net%2Fimages%2F9%2Ff9%2Ffc2-ppv-3979725%2Fcover.jpg%3Ft%3D1730519410',
-        //     'is_featured' => true,
-        //     'genre_id' => 10,  // Example genre ID
-        //     'sub_genre_id' => 7, // Example sub-genre ID
-        // ]);
-
-        // Movie::create([
-        //     'title' => 'FC2-PPV-4595472',
-        //     'description' => 'FC2-PPV-4595472 [Amateur wife with instant sex and creampie] Uncensored [I-cup huge breasts - best breasts] ≪Saffle wife who wants cum* as soon as they meet≫ Suddenly changes into a lewd ⤴ Begs for creampie in the most sensitive pussy that cums with intense pissing ➡ - Blowjob with semen seed and swallowing',
-        //     'posted_date' =>Carbon::now(),
-        //     'duration' => 2983,
-        //     'view_count' => 0,
-        //     'rating_total' => 0,
-        //     'rating_count' => 0,
-        //     'language' => 'japan',
-        //     'released_year' => '2024-12-26',
-        //     'thumbnail_url' => 'https://cdn.avfever.net/images/e/3e/fc2-ppv-4595472/cover.jpg' . '?t=' . $timestamp,
-        //     'video_url' => 'https://javplayer.me/e/8NZRQXD8?poster=https%3A%2F%2Fcdn.avfever.net%2Fimages%2Fe%2F3e%2Ffc2-ppv-4595472%2Fcover.jpg%3Ft%3D1735284311',
-        //     'is_featured' => true,
-        //     'genre_id' => 10,  // Example genre ID
-        //     'sub_genre_id' => 7, // Example sub-genre ID
-        // ]);
-
-        // Movie::create([
-        //     'title' => ' FC2-PPV-4595509',
-        //     'description' => 'FC2-PPV-4595509 *Half price until 1/5 (Sun)! - She\'s an amateur** college student, 19 years old** and in middle school! What on earth is going on with her?',
-        //     'posted_date' =>Carbon::now(),
-        //     'duration' => 5061,
-        //     'view_count' => 0,
-        //     'rating_total' => 0,
-        //     'rating_count' => 0,
-        //     'language' => 'japan',
-        //     'released_year' => '2024-12-26',
-        //     'thumbnail_url' => 'https://cdn.avfever.net/images/b/db/fc2-ppv-4595509/cover.jpg' . '?t=' . $timestamp,
-        //     'video_url' => 'https://javplayer.me/e/86NEO5X2?poster=https%3A%2F%2Fcdn.avfever.net%2Fimages%2Fb%2Fdb%2Ffc2-ppv-4595509%2Fcover.jpg%3Ft%3D1735283830',
-        //     'is_featured' => true,
-        //     'genre_id' => 10,  // Example genre ID
-        //     'sub_genre_id' => 7, // Example sub-genre ID
-        // ]);
-
-        // //
-        // Movie::create([
-        //     'title' => 'FC2-PPV-4591486',
-        //     'description' => 'FC2-PPV-4591486 ★ Face showing ★ Amateur came to do naughty things! - Case #65: I forgot my costume, so I masturbate and fuck my ekiben as punishment! - Finally, cleaning blowjob to the root in case of Nagisa-chan (22)',
-        //     'posted_date' =>Carbon::now(),
-        //     'duration' => 3309,
-        //     'view_count' => 0,
-        //     'rating_total' => 0,
-        //     'rating_count' => 0,
-        //     'language' => 'japan',
-        //     'released_year' => '2024-12-26',
-        //     'thumbnail_url' => 'https://cdn.avfever.net/images/f/7f/fc2-ppv-4591486/cover.jpg' . '?t=' . $timestamp,
-        //     'video_url' => 'https://javplayer.me/e/KZLY15V2?poster=https%3A%2F%2Fcdn.avfever.net%2Fimages%2Ff%2F7f%2Ffc2-ppv-4591486%2Fcover.jpg%3Ft%3D1735283712',
-        //     'is_featured' => true,
-        //     'genre_id' => 10,  // Example genre ID
-        //     'sub_genre_id' => 7, // Example sub-genre ID
-        // ]);
-
-        //  //
-        //  Movie::create([
-        //     'title' => ' FC2-PPV-4593886',
-        //     'description' => 'FC2-PPV-4593886 990pt until 1/8 ♡ First shoot *3P Anal and pussy insertion at the same time and orgasm! - Both pussy and anus are covered with cum [nothing].',
-        //     'posted_date' =>Carbon::now(),
-        //     'duration' => 3338,
-        //     'view_count' => 0,
-        //     'rating_total' => 0,
-        //     'rating_count' => 0,
-        //     'language' => 'japan',
-        //     'released_year' => '2024-12-26',
-        //     'thumbnail_url' => 'https://cdn.avfever.net/images/8/38/fc2-ppv-4593886/cover.jpg' . '?t=' . $timestamp,
-        //     'video_url' => 'https://javplayer.me/e/2RP61EZ8?poster=https%3A%2F%2Fcdn.avfever.net%2Fimages%2F8%2F38%2Ffc2-ppv-4593886%2Fcover.jpg%3Ft%3D1735282990',
-        //     'is_featured' => true,
-        //     'genre_id' => 10,  // Example genre ID
-        //     'sub_genre_id' => 7, // Example sub-genre ID
-        // ]);
-
-        // Movie::create([
-        //     'title' => 'FC2-PPV-4594742',
-        //     'description' => 'FC2-PPV-4594742 [7980pt → 1980pt until today] The husband is at work, and the wife is having sex at the hotel. - She can\'t stop going wild with her voluptuous body. - Shaking G cup, massive ejaculation to Minato Ward married woman [No]',
-        //     'posted_date' =>Carbon::now(),
-        //     'duration' => 4590,
-        //     'view_count' => 0,
-        //     'rating_total' => 0,
-        //     'rating_count' => 0,
-        //     'language' => 'japan',
-        //     'released_year' => '2024-12-26',
-        //     'thumbnail_url' => 'https://cdn.avfever.net/images/c/dc/fc2-ppv-4594742/cover.jpg' . '?t=' . $timestamp,
-        //     'video_url' => 'https://javplayer.me/e/KXDV1EJ2?poster=https%3A%2F%2Fcdn.avfever.net%2Fimages%2Fc%2Fdc%2Ffc2-ppv-4594742%2Fcover.jpg%3Ft%3D1735282629',
-        //     'is_featured' => true,
-        //     'genre_id' => 10,  // Example genre ID
-        //     'sub_genre_id' => 7, // Example sub-genre ID
-        // ]);
 
 
-        // Movie::create([
-        //     'title' => 'FC2-PPV-4591548',
-        //     'description' => 'FC2-PPV-4591548 [Amateur individual shooting] [Creampie] A cute erotic married woman who continues a secret relationship is restrained/restricted',
-        //     'posted_date' =>Carbon::now(),
-        //     'duration' => 2091,
-        //     'view_count' => 0,
-        //     'rating_total' => 0,
-        //     'rating_count' => 0,
-        //     'language' => 'japan',
-        //     'released_year' => '2024-12-26',
-        //     'thumbnail_url' => 'https://cdn.avfever.net/images/3/93/fc2-ppv-4591548/cover.jpg' . '?t=' . $timestamp,
-        //     'video_url' => 'https://javplayer.me/e/23L7Z1R2?poster=https%3A%2F%2Fcdn.avfever.net%2Fimages%2F3%2F93%2Ffc2-ppv-4591548%2Fcover.jpg%3Ft%3D1735281429',
-        //     'is_featured' => true,
-        //     'genre_id' => 10,  // Example genre ID
-        //     'sub_genre_id' => 7, // Example sub-genre ID
-        // ]);
 
-        // Movie::create([
-        //     'title' => 'C0930-ki241226',
-        //     'description' => 'C0930-ki241226 Shinobu Igarashi',
-        //     'posted_date' =>Carbon::now(),
-        //     'duration' => 3116,
-        //     'view_count' => 0,
-        //     'rating_total' => 0,
-        //     'rating_count' => 0,
-        //     'language' => 'japan',
-        //     'released_year' => '2024-12-26',
-        //     'thumbnail_url' => 'https://cdn.avfever.net/images/d/2d/c0930-ki241226/cover.jpg' . '?t=' . $timestamp,
-        //     'video_url' => 'https://javplayer.me/e/870ZJ172?poster=https%3A%2F%2Fcdn.avfever.net%2Fimages%2Fd%2F2d%2Fc0930-ki241226%2Fcover.jpg%3Ft%3D1735279214',
-        //     'is_featured' => true,
-        //     'genre_id' => 10,  // Example genre ID
-        //     'sub_genre_id' => 7, // Example sub-genre ID
-        // ]);
 
-    
-    
-
+        foreach ($movies as $movie) {
+            Movie::updateOrCreate(
+                ['video_url' => $movie['url']], // Unique constraint field
+                [
+                    'title' => $movie['title'],
+                    'description' => $movie['title'],
+                    'posted_date' => Carbon::parse(),
+                    'duration' => $movie['duration'],
+                    'view_count' => $movie['view_count'],
+                    'rating_total' => $movie['rating_total'],
+                    'rating_count' => $movie['rating_count'],
+                    'language' => 'russia', // Example language
+                    'released_year' => '2024-12-20',
+                    'thumbnail_url' => $movie['img_path'],
+                    'is_featured' => false,
+                    'genre_id' => 12,  // Example genre ID
+                    'sub_genre_id' => 40, // Example sub-genre ID
+                ]
+            );
+        }
     }
 }

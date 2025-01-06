@@ -4,16 +4,21 @@ use App\Http\Controllers\V1\GenreController;
 use App\Http\Controllers\V1\LikeController;
 use App\Http\Controllers\V1\MovieController;
 use App\Http\Controllers\Auth\AuthController; // Import AuthController
+use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\V1\CommentController;
 use App\Http\Controllers\V1\FeatureVdo\FeaturedVideos;
+use App\Http\Controllers\V1\FeatureVdo\NewReleaseController;
 use App\Http\Controllers\V1\FeatureVdo\RecommentForYouController;
 use App\Http\Controllers\V1\Genre\GetMoviesWithGenreController;
 use App\Http\Controllers\V1\RelatedMovieController;
+use App\Http\Controllers\V1\SearchController;
+use App\Http\Controllers\V1\SubGenreController;
 use App\Http\Controllers\V1\ViewCountController;
 use App\Http\Controllers\V1\WatchListController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -30,17 +35,21 @@ Route::prefix('v1')->group(function () {
     // Movie and genre routes
     Route::apiResource('movies', MovieController::class);
     Route::apiResource('genres', GenreController::class);
+    Route::get('/movie', [GetMoviesWithGenreController::class, 'getMoviesBySubGenre']);
 
     Route::get('/movie/{movieId}/like-count', [LikeController::class, 'getLikeCount']);
     Route::get('/movie/{movieId}/comments', [CommentController::class, 'index']);
-    Route::get('/movie', [GetMoviesWithGenreController::class, 'getMoviesByGenre']);
     Route::post('/movie/{id}/view', [ViewCountController::class, 'incrementViewCount']);
-    Route::get('/featured-videos', [FeaturedVideos::class, 'getAllFeaturedVideos']);
-    Route::get('/recommendations', [RecommentForYouController::class, 'getRecommendations']);
     Route::get('/movie/{videoId}/related', [RelatedMovieController::class, 'getRelatedVideos']);
-    // Login route for authentication
-    Route::post('login', [AuthController::class, 'login']);
-    Route::post('register', [AuthController::class, 'register']);
+
+    Route::get('/featured-videos', [FeaturedVideos::class, 'getAllFeaturedVideos']);
+    Route::get('/new-releases', [NewReleaseController::class, 'getLatestVideos']);
+    Route::get('/recommendations', [RecommentForYouController::class, 'getRecommendations']);
+
+    Route::delete('genres/{genreId}/subgenres/{subGenreId}', [SubGenreController::class, 'destroy']);
+
+    Route::get('/search', [SearchController::class, 'search']);
+
 });
 
 // Authenticated routes (Sanctum middleware)
@@ -54,7 +63,15 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
     Route::delete('/watchlist/{movieId}', [WatchlistController::class, 'removeFromWatchlist']);
     Route::get('/watchlist', [WatchlistController::class, 'getUserWatchlist']);
 
-    Route::get('/user', function (Request $request) {
-        return $request->user();
+    Route::get('/user-profile', function (Request $request) {
+        return response()->json($request->user());
     });
+    Route::get('/user-profile', [UserController::class, 'getUserProfile']);
 });
+
+
+// Login route for authentication
+Route::post('login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::post('/google-login', [GoogleController::class, 'login']);

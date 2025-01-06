@@ -43,7 +43,7 @@ class MovieController extends Controller
     {
         try {
             // Find the movie by its ID with related genre and subGenre
-            $movie = Movie::with('genre', 'subGenre', 'likes')->findOrFail($id);
+            $movie = Movie::with('genre', 'subGenre')->findOrFail($id);
 
             // Get the like count
             $likeCount = $movie->likes()->count();
@@ -105,10 +105,14 @@ class MovieController extends Controller
             // Append the timestamp to the thumbnail_url
             $thumbnailUrl = $validated['thumbnail_url'] . "?t=" . $timestamp;
 
+            // Set `posted_date` to the current time in the correct format
+            $postedDate = Carbon::now('Asia/Kuala_Lumpur')->format('Y-m-d H:i:s');
+
+            // Create movie with `posted_date`
             $movie = Movie::create([
                 'title' => $validated['title'],
                 'description' => $validated['description'],
-                'posted_date' => Carbon::now('Asia/Kuala_Lumpur')->toIso8601String(),
+                'posted_date' => $postedDate, // Add the current date-time here
                 'duration' => $validated['duration'],
                 'view_count' => $validated['view_count'],
                 'rating_total' => $validated['rating_total'],
@@ -122,24 +126,17 @@ class MovieController extends Controller
                 'sub_genre_id' => $validated['sub_genre_id'],
             ]);
 
-            // Format the posted_date before returning
-            $movie->posted_date = Carbon::parse($movie->posted_date)
-                ->timezone('Asia/Kuala_Lumpur') // Ensure Malaysia timezone
-                ->format('Y-m-d H:i:s');
-
             // Return a success response with the created movie data
             return response()->json($movie, 201);
         } catch (ValidationException $e) {
-            // Validation failed, return error message
             return response()->json(['error' => 'Validation error', 'details' => $e->errors()], 422);
         } catch (ModelNotFoundException $e) {
-            // If any of the related models (genre or sub-genre) are not found
             return response()->json(['error' => 'Related model not found', 'details' => $e->getMessage()], 404);
         } catch (Exception $e) {
-            // Generic exception handling for any other errors
             return response()->json(['error' => 'Failed to create movie', 'details' => $e->getMessage()], 500);
         }
     }
+
 
     // Update a movie
     public function update(Request $request, $id)

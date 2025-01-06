@@ -16,9 +16,9 @@ class RelatedMovieController extends Controller
 
         if ($movie) {
             // Get movies with the same genre, excluding the current movie
-            $relatedVideos = Movie::where('genre_id', $movie->genre_id)
+            $relatedVideos = Movie::where('sub_genre_id', $movie->sub_genre_id)
                 ->where('id', '!=', $movie->id)  // Exclude the current movie
-                ->limit(10)  
+                ->limit(20)  
                 ->get();
 
             // Return the related videos

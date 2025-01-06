@@ -48,16 +48,14 @@ class AuthController extends Controller
         ], 401);
     }
 
-
-
     // Register Method
     public function register(Request $request)
     {
         // Validate the incoming request
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255', // Change from username to name
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:8|confirmed', // Ensure password_confirmation is included
         ]);
 
         // If validation fails, return a response with errors
@@ -71,7 +69,7 @@ class AuthController extends Controller
 
         // Create the user
         $user = User::create([
-            'name' => $request->name,
+            'name' => $request->name, // Store name
             'email' => $request->email,
             'password' => Hash::make($request->password), // Hash the password
         ]);
@@ -89,5 +87,18 @@ class AuthController extends Controller
                 'name' => $user->name,
             ]
         ], 201);
+    }
+
+
+    // Logout Method
+    public function logout(Request $request)
+    {
+        try {
+            $user = $request->user();
+            $user->tokens()->delete(); // Revoke all tokens
+            return response()->json(['message' => 'Logged out successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to logout'], 500);
+        }
     }
 }

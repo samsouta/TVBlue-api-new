@@ -38,7 +38,13 @@ class LikeController extends Controller
         $like->created_at = now();
         $like->save();
 
-        return response()->json(['message' => 'Movie liked successfully.'], 200);
+        // Success message
+        return response()->json([
+            'message' => 'Movie liked successfully.',
+            'success' => true, // Added success flag
+            'movieId' => $movieId,
+            'userId' => $user->id,
+        ], 200);
     }
 
     // Remove a Like from a Movie
@@ -56,7 +62,7 @@ class LikeController extends Controller
             return response()->json(['message' => 'Movie not found.'], 404);
         }
 
-        // Check if the user has already liked the movie
+        // Check if the user has liked the movie
         $existingLike = Like::where('user_id', $user->id)->where('movie_id', $movieId)->first();
         if (!$existingLike) {
             return response()->json(['message' => 'You have not liked this movie yet.'], 400);
@@ -65,7 +71,13 @@ class LikeController extends Controller
         // Remove the like
         $existingLike->delete();
 
-        return response()->json(['message' => 'Movie unliked successfully.'], 200);
+        // Success message
+        return response()->json([
+            'message' => 'Movie unliked successfully.',
+            'success' => true, // Added success flag
+            'movieId' => $movieId,
+            'userId' => $user->id,
+        ], 200);
     }
 
     // Get the count of likes for a Movie
