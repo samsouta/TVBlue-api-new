@@ -10,8 +10,9 @@ class FeaturedVideos extends Controller
 {
     public function getAllFeaturedVideos(Request $request)
     {
-        // Fetch featured videos with pagination (2 videos per page)
-        $videos = Movie::where('is_featured', 1)->paginate(20);
+        $videos = Movie::where('is_featured', 1)
+            ->orderBy('posted_date', 'desc') // Sort by posted_date in descending order
+            ->paginate(20);
 
         return response()->json([
             'data' => $videos->items(),  // The video data
