@@ -14,22 +14,39 @@ class SearchController extends Controller
         $page = $request->input('page', 1); // Default to page 1 if not provided
         $perPage = $request->input('per_page', 10); // Default 10 items per page
 
+        // Validate input
+        if (!$query) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Search query is required.',
+                'data' => [],
+            ], 400);
+        }
+
+        // Convert query to lowercase for case-insensitive matching
+        $query = strtolower($query);
+
+        // Split the query into individual keywords
+        $keywords = explode(' ', $query);
+
         // Search logic with grouped conditions
         $videos = Movie::with(['genre', 'subGenre']) // Eager load genre and subGenre
-            ->where(function ($q) use ($query) {
-                // Searching in Movie title and description (case-insensitive)
-                $q->whereRaw('LOWER(title) LIKE ?', ['%' . strtolower($query) . '%'])
-                    ->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($query) . '%'])
-                    // Searching in Genre description (case-insensitive)
-                    ->orWhereHas('genre', function ($q1) use ($query) {
-                        $q1->whereRaw('LOWER(description) LIKE ?', ['%' . strtolower($query) . '%']);
-                    })
-                    // Searching in SubGenre name through Genre (case-insensitive)
-                    ->orWhereHas('subGenre', function ($q2) use ($query) {
-                        $q2->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($query) . '%']);
-                    });
+            ->where(function ($q) use ($keywords) {
+                foreach ($keywords as $keyword) {
+                    $q->orWhereRaw('LOWER(title) LIKE ?', ['%' . $keyword . '%'])
+                        ->orWhereRaw('LOWER(description) LIKE ?', ['%' . $keyword . '%'])
+                        // Searching in Genre description
+                        ->orWhereHas('genre', function ($q1) use ($keyword) {
+                            $q1->whereRaw('LOWER(description) LIKE ?', ['%' . $keyword . '%']);
+                        })
+                        // Searching in SubGenre name through Genre
+                        ->orWhereHas('subGenre', function ($q2) use ($keyword) {
+                            $q2->whereRaw('LOWER(name) LIKE ?', ['%' . $keyword . '%']);
+                        });
+                }
             })
-            ->paginate($perPage, ['*'], 'page', $page); // Accepts page number from query params
+            ->orderBy('posted_date', 'desc') // Order by newest to oldest
+            ->paginate($perPage, ['*'], 'page', $page);
 
         // Return response based on the result
         if ($videos->isEmpty()) {

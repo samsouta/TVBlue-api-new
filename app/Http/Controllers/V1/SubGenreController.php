@@ -8,6 +8,35 @@ use Illuminate\Http\Request;
 
 class SubGenreController extends Controller
 {
+    public function store(Request $request, $genreId)
+    {
+        // Validate the request
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        // Find the genre
+        $genre = Genre::find($genreId);
+
+        if (!$genre) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Genre not found'
+            ], 404);
+        }
+
+        // Create the subgenre
+        $subGenre = $genre->subGenres()->create($validated);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'SubGenre added successfully',
+            'data' => $subGenre
+        ], 201);
+    }
+
+
     // Remove a sub-genre from a genre
     public function destroy($genreId, $subGenreId)
     {

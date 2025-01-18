@@ -46,6 +46,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/new-releases', [NewReleaseController::class, 'getLatestVideos']);
     Route::get('/recommendations', [RecommentForYouController::class, 'getRecommendations']);
 
+    Route::post('genres/{genreId}/subgenres', [SubGenreController::class, 'store']);
     Route::delete('genres/{genreId}/subgenres/{subGenreId}', [SubGenreController::class, 'destroy']);
 
     Route::get('/search', [SearchController::class, 'search']);
