@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\V1\Genre;
 
 use App\Http\Controllers\Controller;
@@ -10,8 +11,8 @@ class GetMoviesWithGenreController extends Controller
     public function getMoviesBySubGenre(Request $request)
     {
         // Get the sub_genre query parameter
-        $subGenreParam = $request->query('sub_genre'); 
-        
+        $subGenreParam = $request->query('sub_genre');
+
         // Ensure the sub_genre parameter is provided
         if (!$subGenreParam) {
             return response()->json(['error' => 'Please provide a sub_genre'], 400);
@@ -25,14 +26,15 @@ class GetMoviesWithGenreController extends Controller
 
         // Query the movies by the sub_genre
         $moviesQuery = Movie::query();
-        $moviesQuery->whereHas('subGenre', function ($query) use ($normalizedSubGenre) {
-            // Match the sub-genre after normalizing
-            $query->whereRaw('LOWER(REPLACE(name, " ", "")) = ?', [$normalizedSubGenre]);
-        });
+        $moviesQuery->with(['genre', 'subGenre', 'tags', 'actresses']) // Added eager loading relationships
+            ->whereHas('subGenre', function ($query) use ($normalizedSubGenre) {
+                // Match the sub-genre after normalizing
+                $query->whereRaw('LOWER(REPLACE(name, " ", "")) = ?', [$normalizedSubGenre]);
+            });
 
         // Add pagination, the page parameter is automatically handled by Laravel
         $movies = $moviesQuery
-            ->orderBy('created_at', 'desc') // Sort by newest to oldest
+            ->orderBy('posted_date', 'desc') // Changed to posted_date to match other controllers
             ->paginate($perPage);
 
         // If no movies found, return an empty response with a message
@@ -44,4 +46,3 @@ class GetMoviesWithGenreController extends Controller
         return response()->json($movies);
     }
 }
-

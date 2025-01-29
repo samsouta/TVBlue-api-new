@@ -10,13 +10,12 @@ class RecommentForYouController extends Controller
 {
     public function getRecommendations(Request $request)
     {
-        // Get the page number from the request, defaulting to 1 if not provided
         $page = $request->get('page', 1);
 
-        // Option 1: Popular Movies based on view_count or rating_total
-        $popularMovies = Movie::orderBy('view_count', 'desc') // or order by rating_total
-            ->paginate(4, ['*'], 'page', $page); // Paginate with 5 movies per page
+        $popularMovies = Movie::with(['genre', 'subGenre', 'tags', 'actresses'])  // Added relationships
+            ->orderBy('view_count', 'desc')
+            ->paginate(4, ['*'], 'page', $page);
 
-            return response()->json($popularMovies, 200);
+        return response()->json($popularMovies, 200);
     }
 }

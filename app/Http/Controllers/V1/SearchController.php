@@ -42,6 +42,15 @@ class SearchController extends Controller
                         // Searching in SubGenre name through Genre
                         ->orWhereHas('subGenre', function ($q2) use ($keyword) {
                             $q2->whereRaw('LOWER(name) LIKE ?', ['%' . $keyword . '%']);
+                        })
+                        // Added search in Tags
+                        ->orWhereHas('tags', function ($q3) use ($keyword) {
+                            $q3->whereRaw('LOWER(name) LIKE ?', ['%' . $keyword . '%'])
+                                ->orWhereRaw('LOWER(description) LIKE ?', ['%' . $keyword . '%']);
+                        })
+                        // Added search in Actresses name
+                        ->orWhereHas('actresses', function ($q4) use ($keyword) {
+                            $q4->whereRaw('LOWER(name) LIKE ?', ['%' . $keyword . '%']);
                         });
                 }
             })

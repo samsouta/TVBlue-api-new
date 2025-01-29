@@ -16,7 +16,7 @@ class MovieController extends Controller
     {
         $perPage = $request->query('per_page', 10);
 
-        $movies = Movie::with('genre', 'subGenre')
+        $movies = Movie::with(['genre', 'subGenre', 'tags', 'actresses'])
             ->orderBy('posted_date', 'desc')
             ->paginate($perPage);
 
@@ -33,7 +33,7 @@ class MovieController extends Controller
     public function show($id)
     {
         try {
-            $movie = Movie::with('genre', 'subGenre')->findOrFail($id);
+            $movie = Movie::with(['genre', 'subGenre', 'tags', 'actresses'])->findOrFail($id);
 
             $likeCount = $movie->likes()->count();
 
@@ -71,6 +71,8 @@ class MovieController extends Controller
                 'is_featured' => 'required|boolean',
                 'genre_id' => 'required|exists:genres,id',
                 'sub_genre_id' => 'required|exists:sub_genres,id',
+                'tag_id' => 'array|exists:tags,id',
+                'actress_id' => 'array|exists:actresses,id',
             ]);
 
             $timestamp = time();
@@ -94,6 +96,9 @@ class MovieController extends Controller
                 'genre_id' => $validated['genre_id'],
                 'sub_genre_id' => $validated['sub_genre_id'],
             ]);
+            // Attach tags and actresses
+            $movie->tags()->sync($validated['tag_id']); // Add tags
+            $movie->actresses()->sync($validated['actress_id']);
 
             return response()->json($movie, 201);
         } catch (ValidationException $e) {
@@ -120,10 +125,12 @@ class MovieController extends Controller
                 'language' => 'required|string',
                 'released_year' => 'required|string',
                 'thumbnail_url' => 'required|url|unique:movies,thumbnail_url',
-                'video_url' => 'required|url|unique:movies,video_url',
+                'video_url' => 'required|url',
                 'is_featured' => 'required|boolean',
                 'genre_id' => 'required|exists:genres,id',
                 'sub_genre_id' => 'required|exists:sub_genres,id',
+                'tag_id' => 'array|exists:tags,id',
+                'actress_id' => 'array|exists:actresses,id',
             ]);
 
             $timestamp = time();
@@ -144,7 +151,18 @@ class MovieController extends Controller
                 'is_featured' => $validated['is_featured'],
                 'genre_id' => $validated['genre_id'],
                 'sub_genre_id' => $validated['sub_genre_id'],
+
             ]);
+
+
+            // Update tags and actresses relationships
+            if (isset($validated['tag_id'])) {
+                $movie->tags()->sync($validated['tag_id']); // Update tags
+            }
+
+            if (isset($validated['actress_id'])) {
+                $movie->actresses()->sync($validated['actress_id']); // Update actresses
+            }
 
             $movie->posted_date = Carbon::parse($movie->posted_date)
                 ->timezone('Asia/Kuala_Lumpur')

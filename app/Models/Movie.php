@@ -55,6 +55,17 @@ class Movie extends Model
         return $this->hasMany(Watchlist::class);
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'movie_tag');
+    }
+
+    public function actresses()
+    {
+        return $this->belongsToMany(Actress::class, 'actress_movie');
+    }
+
+
     //// /
 
     // Define the method to get the like count for the movie
