@@ -20,7 +20,7 @@ class NewReleaseController extends Controller
             });
         }
 
-        $videos = $query->with(['genre', 'subGenre', 'tags'])
+        $videos = $query->with(['genre', 'subGenre', 'tags', 'actresses'])
             ->orderBy('released_year', 'desc')
             ->orderBy('posted_date', 'desc')
             ->paginate(20);

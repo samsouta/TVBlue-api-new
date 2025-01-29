@@ -11,6 +11,7 @@ class FeaturedVideos extends Controller
     public function getAllFeaturedVideos(Request $request)
     {
         $videos = Movie::where('is_featured', 1)
+            ->with(['genre', 'subGenre', 'tags', 'actresses'])
             ->orderBy('posted_date', 'desc') // Sort by posted_date in descending order
             ->paginate(20);
 

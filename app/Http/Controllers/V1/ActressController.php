@@ -152,4 +152,13 @@ class ActressController extends Controller
             return response()->json(['error' => $e->errors()], 422);
         }
     }
+
+    public function getAllNames()
+    {
+        $actresses = Actress::select('id', 'name','image_url','is_popular')->get();
+        return response()->json([
+            'status' => 'success',
+            'data' => $actresses
+        ]);
+    }
 }

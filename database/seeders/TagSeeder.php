@@ -10,10 +10,8 @@ class TagSeeder extends Seeder
     public function run()
     {
         $tags = [
-            'Cowgirl',
-            'Swimsuit ',
-            ' Pick-Up',
-            'Virgin'
+            'Restraint',
+            
              
             
             

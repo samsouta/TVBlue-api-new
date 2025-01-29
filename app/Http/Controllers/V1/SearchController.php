@@ -30,7 +30,7 @@ class SearchController extends Controller
         $keywords = explode(' ', $query);
 
         // Search logic with grouped conditions
-        $videos = Movie::with(['genre', 'subGenre']) // Eager load genre and subGenre
+        $videos = Movie::with(['genre', 'subGenre' ,'tags', 'actresses']) // Eager load genre and subGenre
             ->where(function ($q) use ($keywords) {
                 foreach ($keywords as $keyword) {
                     $q->orWhereRaw('LOWER(title) LIKE ?', ['%' . $keyword . '%'])

@@ -11,12 +11,12 @@ class ActressSeeder extends Seeder
     {
         $actresses = [
             [
-                'name' => 'Sarina Momonaga',
-                'description' => '88 H - 56 - 85',
-                'image_url' => 'https://cdn.avfever.net/images/acctress/53844.jpg',
-                'age' => null,
-                'nationality' => 'japanese',
-                'birth_date' => '1990-01-01'
+                'name' => 'LinaMigurtt',
+                'description' => 'null',
+                'image_url' => 'https://img.telemetr.io/c/1VV0z0/5217445169769595143?ty=l',
+                'age' => 25,
+                'nationality' => 'American',
+                'birth_date' => '1999-1-1'
             ],
             // ... other actresses data
         ];

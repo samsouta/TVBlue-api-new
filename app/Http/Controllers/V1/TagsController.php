@@ -65,11 +65,25 @@ class TagsController extends Controller
             ]);
 
             $movie = Movie::findOrFail($movieId);
-            $tags = Tag::whereIn('id', $validated['tag_ids'])->get();
-            $movie->tags()->sync($tags);
+            
+            // Get existing tag IDs
+            $existingTagIds = $movie->tags()->pluck('tags.id')->toArray();
+            
+            // Filter out tags that already exist
+            $newTagIds = array_diff($validated['tag_ids'], $existingTagIds);
+            
+            if (empty($newTagIds)) {
+                return response()->json([
+                    'message' => 'All tags already exist for this movie',
+                    'movie' => $movie->load('tags')
+                ]);
+            }
+
+            // Attach only new tags
+            $movie->tags()->attach($newTagIds);
 
             return response()->json([
-                'message' => 'Tags added successfully!',
+                'message' => 'New tags added successfully!',
                 'movie' => $movie->load('tags')
             ]);
         } catch (\Exception $e) {

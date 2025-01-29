@@ -58,6 +58,7 @@ Route::prefix('v1')->group(function () {
     Route::get('act/{id}/movie', [ActressController::class, 'getMovies']);
     Route::post('act/{id}/movie', [ActressController::class, 'attachMovie']);
     Route::delete('act/{id}/movie', [ActressController::class, 'detachMovie']);
+    Route::get('act/names/all', [ActressController::class, 'getAllNames']);
 
     // show home page video type 
     Route::get('/featured-videos', [FeaturedVideos::class, 'getAllFeaturedVideos']);
