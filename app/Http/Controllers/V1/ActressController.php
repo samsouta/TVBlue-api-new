@@ -14,7 +14,9 @@ class ActressController extends Controller
     {
         $perPage = $request->query('per_page', 10);
         $actresses = Actress::withCount('movies')
-            ->with('movies')
+            ->with(['movies' => function($query) {
+                $query->orderBy('posted_date', 'desc');  // Order from newest to oldest
+            }])
             ->orderBy('name')
             ->paginate($perPage);
 

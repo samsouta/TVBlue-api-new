@@ -10,10 +10,9 @@ class TagSeeder extends Seeder
     public function run()
     {
         $tags = [
-            'Restraint',
+            'Feet',
             
              
-            
             
         ];
 

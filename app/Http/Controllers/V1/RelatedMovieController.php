@@ -11,17 +11,22 @@ class RelatedMovieController extends Controller
 {
     public function getRelatedVideos($videoId): JsonResponse
     {
-        // Find the movie by its ID
-        $movie = Movie::find($videoId);
+        $movie = Movie::with('tags')->find($videoId);
 
         if ($movie) {
-            // Get movies with the same genre, excluding the current movie
-            $relatedVideos = Movie::where('sub_genre_id', $movie->sub_genre_id)
-                ->where('id', '!=', $movie->id)  // Exclude the current movie
-                ->limit(20)  
+            // Get tag IDs of current movie
+            $movieTagIds = $movie->tags->pluck('id');
+
+            // Get related videos that share tags
+            $relatedVideos = Movie::with(['genre', 'subGenre', 'tags', 'actresses'])
+                ->whereHas('tags', function($query) use ($movieTagIds) {
+                    $query->whereIn('tags.id', $movieTagIds);
+                })
+                ->where('id', '!=', $movie->id)
+                ->orderBy('posted_date', 'desc')
+                ->limit(30)
                 ->get();
 
-            // Return the related videos
             return response()->json([
                 'success' => true,
                 'message' => 'Related videos fetched successfully.',
@@ -29,7 +34,6 @@ class RelatedMovieController extends Controller
             ]);
         }
 
-        // Return error if movie not found
         return response()->json([
             'success' => false,
             'message' => 'Movie not found.'

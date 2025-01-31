@@ -20,13 +20,6 @@ class MovieController extends Controller
             ->orderBy('posted_date', 'desc')
             ->paginate($perPage);
 
-        $movies->getCollection()->transform(function ($movie) {
-            $movie->posted_date = Carbon::parse($movie->posted_date)
-                ->timezone('Asia/Kuala_Lumpur') // Convert to Malaysia timezone
-                ->format('Y-m-d H:i:s');
-            return $movie;
-        });
-
         return response()->json($movies);
     }
 
@@ -34,12 +27,7 @@ class MovieController extends Controller
     {
         try {
             $movie = Movie::with(['genre', 'subGenre', 'tags', 'actresses'])->findOrFail($id);
-
             $likeCount = $movie->likes()->count();
-
-            $movie->posted_date = Carbon::parse($movie->posted_date)
-                ->timezone('Asia/Kuala_Lumpur')  // Convert to Malaysia timezone
-                ->format('Y-m-d H:i:s');
 
             return response()->json([
                 'status' => 'success',
@@ -78,7 +66,7 @@ class MovieController extends Controller
             $timestamp = time();
             $thumbnailUrl = $validated['thumbnail_url'] . "?t=" . $timestamp;
 
-            $postedDate = Carbon::now('Asia/Kuala_Lumpur')->setTimezone('UTC')->toDateTimeString();
+            $postedDate = Carbon::now()->setTimezone('Asia/Kuala_Lumpur')->format('Y-m-d H:i:s');
 
             $movie = Movie::create([
                 'title' => $validated['title'],
@@ -139,7 +127,7 @@ class MovieController extends Controller
             $movie->update([
                 'title' => $validated['title'],
                 'description' => $validated['description'],
-                'posted_date' => Carbon::now('Asia/Kuala_Lumpur')->setTimezone('UTC')->toDateTimeString(),
+                'posted_date' => Carbon::now()->setTimezone('Asia/Kuala_Lumpur')->format('Y-m-d H:i:s'),
                 'duration' => $validated['duration'],
                 'view_count' => $validated['view_count'],
                 'rating_total' => $validated['rating_total'],
