@@ -12,20 +12,21 @@ class CheckTagsSeeder extends Seeder
        
         
         $requiredTags = [
-            '60FPS',
-            'Amateur',
-            'Big Dick',
             'Big Tits',
-            'Blonde',
-            'Exclusive',
+            'Couple',
+            'Pervert/Hard',
+            'ride',
+            'step-sister',
+            'Cowgirl',
             'HD Porn',
-            'MILF',
-            'POV',
-            'Russian',
-            'Step Fantasy',
-            'Teen (18+)',
-            'Verified Amateurs',
+            'Big Dick',
+            'Doggystyle',
+            'Handjob',
+            'Sweet Ass',
+            'Big Breast',
         ];
+
+     
 
 
 

@@ -18,9 +18,12 @@ class RelatedMovieController extends Controller
             $movieTagIds = $movie->tags->pluck('id');
 
             // Get related videos that share tags
-            $relatedVideos = Movie::with(['genre', 'subGenre', 'tags', 'actresses'])
-                ->whereHas('tags', function($query) use ($movieTagIds) {
-                    $query->whereIn('tags.id', $movieTagIds);
+            $relatedVideos = Movie::with(['subGenre', 'tags', 'actresses'])
+                ->where(function($query) use ($movie, $movieTagIds) {
+                    $query->whereHas('tags', function($q) use ($movieTagIds) {
+                        $q->whereIn('tags.id', $movieTagIds);
+                    })
+                    ->orWhere('sub_genre_id', $movie->sub_genre_id);
                 })
                 ->where('id', '!=', $movie->id)
                 ->orderBy('posted_date', 'desc')
