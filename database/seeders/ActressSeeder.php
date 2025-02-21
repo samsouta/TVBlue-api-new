@@ -11,46 +11,28 @@ class ActressSeeder extends Seeder
     {
         $actresses = [
             [
-                'name' => 'ComerZZ',
+                'name' => 'noratheo',
                 'description' => 'null',
-                'image_url' => 'https://ei.phncdn.com/videos/201904/16/218563081/original/(m=eGNdHgaaaa)(mh=iuDy2VrUAD87RNOU)14.jpg',
-                'age' => null,
-                'nationality' => 'usa',
+                'image_url' => 'https://www.pornkut.com/get_file/0/133cf5eee5a3f7d96655057cf1f643d8fbdbf90f28/65000/65356/screenshots/1.jpg/',
+                'age' => 25,
+                'nationality' => 'American',
                 'birth_date' => '1999-1-1'
             ],
-          
-           
-           
             // ... other actresses data
         ];
 
-        $addedIds = [];
-        $skippedNames = [];
-
         foreach ($actresses as $actress) {
-            $exists = Actress::where('name', $actress['name'])->first();
+            $exists = Actress::where('name', $actress['name'])->exists();
 
             if ($exists) {
-                $skippedNames[] = $actress['name'];
-                $this->command->warn("Skipping: Actress '{$actress['name']}' already exists with ID: {$exists->id}");
+                $this->command->warn("Skipping: Actress '{$actress['name']}' already exists");
                 continue;
             }
 
-            $newActress = Actress::create($actress);
-            $addedIds[] = $newActress->id;
-            $this->command->info("Created: Actress '{$actress['name']}' with ID: {$newActress->id}");
+            Actress::create($actress);
+            $this->command->info("Created: Actress '{$actress['name']}' added successfully");
         }
 
-        if (!empty($skippedNames)) {
-            $this->command->warn("\nSkipped Actresses:");
-            foreach ($skippedNames as $name) {
-                $this->command->warn("- {$name}");
-            }
-        }
-
-        $this->command->info("\nNewly Added Actress IDs:");
-        $this->command->info('"actress_ids": [' . implode(',', $addedIds) . ']');
-        
         $this->command->info('Actresses seeding completed!');
     }
 }

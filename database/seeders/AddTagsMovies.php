@@ -9,7 +9,7 @@ class AddTagsMovies extends Seeder
 {
     public function run()
     {
-        $targetTags = [10,93,80,76,16,5,114,122,61,56];
+        $targetTags = [11,10,5,61,62,63,64];
 
         $movies = Movie::where('genre_id', 13)
             ->where('sub_genre_id', 29)
