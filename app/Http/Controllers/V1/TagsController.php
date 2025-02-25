@@ -18,14 +18,36 @@ class TagsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255|unique:tags'
+            'tags' => 'required|array',
+            'tags.*' => 'required|string|max:255'
         ]);
 
-        $tag = Tag::create([
-            'name' => $request->name
-        ]);
+        $existingTags = [];
+        $newTags = [];
 
-        return response()->json($tag, 201);
+        foreach ($request->tags as $tagName) {
+            $tag = Tag::where('name', $tagName)->first();
+            
+            if ($tag) {
+                $existingTags[] = [
+                    'id' => $tag->id,
+                    'name' => $tag->name
+                ];
+            } else {
+                $newTag = Tag::create(['name' => $tagName]);
+                $newTags[] = [
+                    'id' => $newTag->id,
+                    'name' => $newTag->name
+                ];
+            }
+        }
+
+        return response()->json([
+            'message' => 'Tags processed successfully',
+            'existing_tags' => $existingTags,
+            'new_tags' => $newTags,
+            'new_tag_ids' => collect($newTags)->pluck('id')->toArray()
+        ], 201);
     }
 
     public function show($id)
