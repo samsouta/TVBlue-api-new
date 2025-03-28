@@ -5,6 +5,7 @@ use App\Http\Controllers\V1\LikeController;
 use App\Http\Controllers\V1\MovieController;
 use App\Http\Controllers\Auth\AuthController; // Import AuthController
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\Auth\SubscriptionController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\V1\ActressController;
 use App\Http\Controllers\V1\CommentController;
@@ -40,8 +41,6 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('genres', GenreController::class);
     Route::apiResource('tags', TagsController::class);
     Route::apiResource('actresses', ActressController::class);
-
-    
 
     Route::get('/mov/by-subgenre', [GetMoviesWithGenreController::class, 'getMoviesBySubGenre']);
     Route::get('/mov/by-tag', [GetMoviesWithTags::class, 'searchByTag']);
@@ -85,8 +84,16 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
         return response()->json($request->user());
     });
     Route::get('/user-profile', [UserController::class, 'getUserProfile']);
+
+    // payment
+    Route::post('/subscribe', [SubscriptionController::class, 'subscribe']);
+    Route::get('/subscription/status', [SubscriptionController::class, 'status']);
 });
 
+// Route::middleware(['auth:sanctum', 'premium'])->group(function () {
+//     Route::get('/vip-videos', [VideoController::class, 'vipVideos']);
+//     // Other premium routes
+// });
 
 // Login route for authentication
 Route::post('login', [AuthController::class, 'login']);

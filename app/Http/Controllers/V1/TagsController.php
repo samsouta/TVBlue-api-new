@@ -24,6 +24,7 @@ class TagsController extends Controller
 
         $existingTags = [];
         $newTags = [];
+        $allTagIds = [];
 
         foreach ($request->tags as $tagName) {
             $tag = Tag::where('name', $tagName)->first();
@@ -33,12 +34,14 @@ class TagsController extends Controller
                     'id' => $tag->id,
                     'name' => $tag->name
                 ];
+                $allTagIds[] = $tag->id;
             } else {
                 $newTag = Tag::create(['name' => $tagName]);
                 $newTags[] = [
                     'id' => $newTag->id,
                     'name' => $newTag->name
                 ];
+                $allTagIds[] = $newTag->id;
             }
         }
 
@@ -46,7 +49,8 @@ class TagsController extends Controller
             'message' => 'Tags processed successfully',
             'existing_tags' => $existingTags,
             'new_tags' => $newTags,
-            'new_tag_ids' => collect($newTags)->pluck('id')->toArray()
+            'new_tag_ids' => collect($newTags)->pluck('id')->toArray(),
+            'tag_ids' => $allTagIds
         ], 201);
     }
 

@@ -21,7 +21,8 @@ class Movie extends Model
         'video_url',
         'is_featured',
         'genre_id',
-        'sub_genre_id'
+        'sub_genre_id',
+        'video_type'
     ];
     protected $hidden = ['created_at', 'updated_at'];
 
@@ -66,7 +67,11 @@ class Movie extends Model
     }
 
 
-    //// /
+
+    public function video_type()
+    {
+        return $this->belongsTo(VideoType::class, 'video_type_id');
+    }
 
     // Define the method to get the like count for the movie
     public function getLikeCount()

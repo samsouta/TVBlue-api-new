@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -24,6 +25,9 @@ class User extends Authenticatable
         'email_verified_at',
         'google_id',
         'avatar',
+        'subscription_status', // 'free', 'premium'
+        'subscription_expires_at',
+        'subscription_type', // 'paypal', 'card', 'code'
     ];
 
     /**
@@ -44,6 +48,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'subscription_expires_at' => 'datetime',
     ];
 
 
@@ -81,5 +86,17 @@ class User extends Authenticatable
     public function ratedMovies()
     {
         return $this->belongsToMany(Movie::class, 'ratings');
+    }
+
+    // Check if user has active premium subscription
+    public function isPremium()
+    {
+        return $this->subscription_status === 'premium'
+            && $this->subscription_expires_at > now();
+    }
+    // Check if user can access VIP content
+    public function canAccessVIP()
+    {
+        return $this->isPremium();
     }
 }

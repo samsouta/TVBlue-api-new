@@ -19,26 +19,16 @@ class AuthController extends Controller
             'password' => 'required|min:6',
         ]);
 
-        // Get credentials
-        $credentials = $request->only('email', 'password');
-
-        // Attempt to authenticate user
-        if (Auth::attempt($credentials)) {
-            // Get the authenticated user
+        if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
-            // Create a token for the user
-            $token = $user->createToken('bluetv')->plainTextToken;
+            $token = $user->createToken('auth_token')->plainTextToken;
 
-            // Return success response with status, message, and user details
             return response()->json([
-                'status' => 'success',
-                'message' => 'Login successful',
+                'user' => $user,
+                'subscription_status' => $user->subscription_status,
+                'is_premium' => $user->subscription_status === 'premium',
                 'token' => $token,
-                'user' => [
-                    'email' => $user->email,
-                    'name' => $user->name,
-                ]
-            ], 200);
+            ]);
         }
 
         // Return error if authentication fails
@@ -53,9 +43,9 @@ class AuthController extends Controller
     {
         // Validate the incoming request
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255', // Change from username to name
+            'name' => 'required|string|max:255', 
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8|confirmed', // Ensure password_confirmation is included
+            'password' => 'required|string|min:8|confirmed', 
         ]);
 
         // If validation fails, return a response with errors
@@ -69,23 +59,21 @@ class AuthController extends Controller
 
         // Create the user
         $user = User::create([
-            'name' => $request->name, // Store name
+            'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password), // Hash the password
+            'password' => Hash::make($request->password),
+            'subscription_status' => 'free', // Default status
         ]);
 
         // Create a token for the new user
-        $token = $user->createToken('bluetv')->plainTextToken;
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         // Return success response with status, message, token, and user details
         return response()->json([
             'status' => 'success',
             'message' => 'Registration successful',
             'token' => $token,
-            'user' => [
-                'email' => $user->email,
-                'name' => $user->name,
-            ]
+            'user' => $user,
         ], 201);
     }
 

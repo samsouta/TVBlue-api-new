@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->date('posted_date');
+            $table->dateTime('posted_date');
             $table->integer('duration');
             $table->bigInteger('view_count');
             $table->integer('rating_total');

@@ -36,13 +36,25 @@ class ActressController extends Controller
                 'is_popular' => 'boolean'
             ]);
 
+            // Check if actress already exists
+            $existingActress = Actress::where('name', $validated['name'])->first();
+            if ($existingActress) {
+                return response()->json([
+                    'message' => 'Actress already exists',
+                    'actress_id' => [$existingActress->id]
+                ], 409);
+            }
+
             $actress = Actress::create($validated);
 
             if (isset($validated['movie_ids'])) {
                 $actress->movies()->attach($validated['movie_ids']);
             }
 
-            return response()->json($actress->load('movies'), 201);
+            return response()->json([
+                'message' => 'Actress created successfully',
+                'actress_id' => [$actress->id]
+            ], 201);
         } catch (ValidationException $e) {
             return response()->json(['error' => $e->errors()], 422);
         }

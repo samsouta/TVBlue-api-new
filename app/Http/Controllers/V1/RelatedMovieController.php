@@ -18,6 +18,7 @@ class RelatedMovieController extends Controller
             // Get movies with the same genre, excluding the current movie
             $relatedVideos = Movie::where('sub_genre_id', $movie->sub_genre_id)
                 ->where('id', '!=', $movie->id)  // Exclude the current movie
+                ->with(['actresses']) 
                 ->limit(20)  
                 ->get();
 
