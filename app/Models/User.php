@@ -88,6 +88,12 @@ class User extends Authenticatable
         return $this->belongsToMany(Movie::class, 'ratings');
     }
 
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
+
     // Check if user has active premium subscription
     public function isPremium()
     {

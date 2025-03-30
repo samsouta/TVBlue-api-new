@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Models;
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Movie extends Model
@@ -77,5 +76,10 @@ class Movie extends Model
     public function getLikeCount()
     {
         return $this->likes()->count(); // This counts the number of likes for this movie
+    }
+
+    public function getIsNewAttribute()
+    {
+        return Carbon::parse($this->posted_date)->diffInDays(now()) <= 7;
     }
 }

@@ -41,6 +41,11 @@ class GetMoviesWithGenreController extends Controller
         if ($movies->isEmpty()) {
             return response()->json(['message' => 'No movies found for the given sub_genre'], 404);
         }
+        
+        $movies->through(function ($movie) {
+            $movie->is_new = $movie->is_new;
+            return $movie;
+        });
 
         // Return the paginated movies
         return response()->json($movies);

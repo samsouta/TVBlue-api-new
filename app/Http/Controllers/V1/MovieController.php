@@ -16,14 +16,13 @@ class MovieController extends Controller
     {
         $perPage = $request->query('per_page', 10);
 
+
         $movies = Movie::with(['genre', 'subGenre', 'tags', 'actresses'])
             ->orderBy('posted_date', 'desc')
             ->paginate($perPage);
 
-        $movies->getCollection()->transform(function ($movie) {
-            $movie->posted_date = Carbon::parse($movie->posted_date)
-                ->timezone('Asia/Kuala_Lumpur') // Convert to Malaysia timezone
-                ->format('Y-m-d H:i:s');
+        $movies->through(function ($movie) {
+            $movie->is_new = $movie->is_new;
             return $movie;
         });
 
@@ -36,6 +35,7 @@ class MovieController extends Controller
             $movie = Movie::with(['genre', 'subGenre', 'tags', 'actresses'])->findOrFail($id);
 
             $movie->like_count = $movie->getLikeCount();
+
             $movie->posted_date = Carbon::parse($movie->posted_date)
                 ->timezone('Asia/Kuala_Lumpur')  // Convert to Malaysia timezone
                 ->format('Y-m-d H:i:s');

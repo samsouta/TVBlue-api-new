@@ -16,6 +16,11 @@ class RecommentForYouController extends Controller
             ->orderBy('view_count', 'desc')
             ->paginate(4, ['*'], 'page', $page);
 
+        $popularMovies->through(function ($movie) {
+            $movie->is_new = $movie->getIsNewAttribute();
+            return $movie;
+        });
+
         return response()->json($popularMovies, 200);
     }
 }

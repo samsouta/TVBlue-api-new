@@ -13,7 +13,7 @@ class GetMoviesWithTags extends Controller
     {
         $tagName = $request->query('tag');
         $perPage = $request->query('per_page', 10); // Default 10 items per page
-        
+
         if (!$tagName) {
             return response()->json([
                 'status' => 'error',
@@ -21,12 +21,17 @@ class GetMoviesWithTags extends Controller
             ], 400);
         }
 
-        $movies = Movie::whereHas('tags', function($query) use ($tagName) {
+        $movies = Movie::whereHas('tags', function ($query) use ($tagName) {
             $query->where('name', 'like', "%{$tagName}%");
         })
-        ->with(['tags', 'genre', 'subGenre', 'actresses'])
-        ->orderBy('posted_date', 'desc')
-        ->paginate($perPage);
+            ->with(['tags', 'genre', 'subGenre', 'actresses'])
+            ->orderBy('posted_date', 'desc')
+            ->paginate($perPage);
+
+        $movies->through(function ($movie) {
+            $movie->is_new = $movie->is_new;
+            return $movie;
+        });
 
         return response()->json([
             'status' => 'success',

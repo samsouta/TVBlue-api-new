@@ -10,21 +10,26 @@ class FeaturedVideos extends Controller
 {
     public function getAllFeaturedVideos(Request $request)
     {
-        $videos = Movie::where('is_featured', 1)
+        $movies = Movie::where('is_featured', 1)
             ->with(['genre', 'subGenre', 'tags', 'actresses'])
             ->orderBy('posted_date', 'desc') // Sort by posted_date in descending order
             ->paginate(20);
 
+        $movies->through(function ($movie) {
+            $movie->is_new = $movie->is_new;
+            return $movie;
+        });
+
         return response()->json([
-            'data' => $videos->items(),  // The video data
-            'total' => $videos->total(),
-            'current_page' => $videos->currentPage(),
-            'last_page' => $videos->lastPage(),
-            'per_page' => $videos->perPage(),
-            'next_page_url' => $videos->nextPageUrl(),
-            'prev_page_url' => $videos->previousPageUrl(),
-            'first_page_url' => $videos->url(1),  // URL for the first page
-            'last_page_url' => $videos->url($videos->lastPage()),  // URL for the last page
+            'data' => $movies->items(),  // The video data
+            'total' => $movies->total(),
+            'current_page' => $movies->currentPage(),
+            'last_page' => $movies->lastPage(),
+            'per_page' => $movies->perPage(),
+            'next_page_url' => $movies->nextPageUrl(),
+            'prev_page_url' => $movies->previousPageUrl(),
+            'first_page_url' => $movies->url(1),  // URL for the first page
+            'last_page_url' => $movies->url($movies->lastPage()),  // URL for the last page
         ]);
     }
 }

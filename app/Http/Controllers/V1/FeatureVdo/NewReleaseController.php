@@ -12,7 +12,6 @@ class NewReleaseController extends Controller
     public function getLatestVideos(Request $request)
     {
         $query = Movie::query();
-
         // Filter by sub_genre if provided
         if ($request->has('sub_genre')) {
             $query->whereHas('subGenre', function($q) use ($request) {
@@ -28,6 +27,11 @@ class NewReleaseController extends Controller
         if ($videos->isEmpty()) {
             return response()->json(['message' => 'No new release videos found'], 404);
         }
+        
+        $videos->through(function ($movie) {
+            $movie->is_new = $movie->is_new;
+            return $movie;
+        });
 
         return response()->json([
             'data' => $videos->items(),

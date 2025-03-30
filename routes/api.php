@@ -5,8 +5,8 @@ use App\Http\Controllers\V1\LikeController;
 use App\Http\Controllers\V1\MovieController;
 use App\Http\Controllers\Auth\AuthController; // Import AuthController
 use App\Http\Controllers\Auth\GoogleController;
-use App\Http\Controllers\Auth\SubscriptionController;
 use App\Http\Controllers\Auth\UserController;
+use App\Http\Controllers\Payment\PaymentController;
 use App\Http\Controllers\V1\ActressController;
 use App\Http\Controllers\V1\CommentController;
 use App\Http\Controllers\V1\FeatureVdo\FeaturedVideos;
@@ -65,17 +65,17 @@ Route::prefix('v1')->group(function () {
     Route::get('/recommendations', [RecommentForYouController::class, 'getRecommendations']);
     // show home page video type end
 
-    
+
+    //code for payment
+    Route::post('/generate-premium-code-chaw', [PaymentController::class, 'generatePremiumCode']);
+
 
 });
 
-// Authenticated routes (Sanctum middleware)
 Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
     Route::post('/movie/{movieId}/like', [LikeController::class, 'likeMovie']);
     Route::post('/movie/{movieId}/unlike', [LikeController::class, 'unlikeMovie']);
-
     Route::post('/movie/{movieId}/comment', [CommentController::class, 'store']);
-
     Route::post('/watchlist/{movieId}', [WatchListController::class, 'addToWatchlist']);
     Route::delete('/watchlist/{movieId}', [WatchlistController::class, 'removeFromWatchlist']);
     Route::get('/watchlist', [WatchlistController::class, 'getUserWatchlist']);
@@ -84,19 +84,23 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
         return response()->json($request->user());
     });
     Route::get('/user-profile', [UserController::class, 'getUserProfile']);
-
-    // payment
-    Route::post('/subscribe', [SubscriptionController::class, 'subscribe']);
-    Route::get('/subscription/status', [SubscriptionController::class, 'status']);
 });
 
-// Route::middleware(['auth:sanctum', 'premium'])->group(function () {
-//     Route::get('/vip-videos', [VideoController::class, 'vipVideos']);
-//     // Other premium routes
-// });
+
+
 
 // Login route for authentication
-Route::post('login', [AuthController::class, 'login']);
-Route::post('register', [AuthController::class, 'register']);
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
-Route::post('/google-login', [GoogleController::class, 'login']);
+Route::prefix('v1')->group(function () {
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+    Route::post('/google-login', [GoogleController::class, 'login']);
+});
+
+
+// Payment routes
+Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
+    Route::post('/payment/paypal', [PaymentController::class, 'payWithPayPal']);
+    Route::post('/payment/card', [PaymentController::class, 'payWithCard']);
+    Route::post('/payment/redeem-premium-code', [PaymentController::class, 'redeemPremiumCode']);
+});

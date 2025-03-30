@@ -50,10 +50,18 @@ class AuthController extends Controller
 
         // If validation fails, return a response with errors
         if ($validator->fails()) {
+            $errors = $validator->errors();
+            $message = 'Validation failed';
+            
+            // Check specifically for email uniqueness error
+            if ($errors->has('email') && str_contains($errors->first('email'), 'taken')) {
+                $message = 'This email is already registered';
+            }
+
             return response()->json([
                 'status' => 'error',
-                'message' => 'Validation failed',
-                'errors' => $validator->errors(),
+                'message' => $message,
+                'errors' => $errors,
             ], 422);
         }
 
