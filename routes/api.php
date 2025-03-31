@@ -22,7 +22,6 @@ use App\Http\Controllers\V1\ViewCountController;
 use App\Http\Controllers\V1\WatchListController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -98,9 +97,12 @@ Route::prefix('v1')->group(function () {
 });
 
 
-// Payment routes
+/**
+ * Payment Routes
+ */
 Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
-    Route::post('/payment/paypal', [PaymentController::class, 'payWithPayPal']);
+    Route::post('/payment/create-order', [PaymentController::class, 'PayPalCreateOrder']);
+    Route::post('/payment/capture-payment', [PaymentController::class, 'PayPalCapturePayment']);
     Route::post('/payment/card', [PaymentController::class, 'payWithCard']);
     Route::post('/payment/redeem-premium-code', [PaymentController::class, 'redeemPremiumCode']);
 });

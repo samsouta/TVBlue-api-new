@@ -1,49 +1,85 @@
 <?php
 
 namespace App\Services;
-use Illuminate\Support\Facades\Http;
+
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Config;
 
 class PayPalService
 {
-    public function getAccessToken()
-    {
-        $response = Http::withBasicAuth(
-            config('paypal.client_id'),
-            config('paypal.secret')
-        )->asForm()->post(config('paypal.api_url') . "/v1/oauth2/token", [
-            'grant_type' => 'client_credentials',
-        ]);
+    protected $client;
+    protected $clientId;
+    protected $clientSecret;
+    protected $baseUrl;
 
-        return $response->json()['access_token'] ?? null;
+    public function __construct()
+    {
+        $this->client = new Client();
+        $mode = Config::get('paypal.mode');
+        $this->clientId = Config::get("paypal.{$mode}.client_id");
+        $this->clientSecret = Config::get("paypal.{$mode}.client_secret");
+        $this->baseUrl = $mode === 'sandbox'
+            ? 'https://api-m.sandbox.paypal.com'
+            : 'https://api-m.paypal.com';
     }
 
-    public function createOrder()
+    public function getAccessToken()
     {
-        $accessToken = $this->getAccessToken();
-
-        $response = Http::withToken($accessToken)->post(config('paypal.api_url') . "/v2/checkout/orders", [
-            'intent' => 'CAPTURE',
-            'purchase_units' => [
-                [
-                    'amount' => [
-                        'currency_code' => 'USD',
-                        'value' => '10.00',
-                    ],
-                ],
+        $response = $this->client->post("{$this->baseUrl}/v1/oauth2/token", [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/x-www-form-urlencoded',
+            ],
+            'auth' => [$this->clientId, $this->clientSecret],
+            'form_params' => [
+                'grant_type' => 'client_credentials',
             ],
         ]);
 
-        return response()->json($response->json());
+        $data = json_decode($response->getBody(), true);
+        return $data['access_token'];
     }
 
-    public function captureOrder($orderID)
+    public function createOrder($amount)
     {
         $accessToken = $this->getAccessToken();
 
-        $response = Http::withToken($accessToken)->post(
-            config('paypal.api_url') . "/v2/checkout/orders/{$orderID}/capture"
-        );
+        $response = $this->client->post("{$this->baseUrl}/v2/checkout/orders", [
+            'headers' => [
+                'Authorization' => "Bearer {$accessToken}",
+                'Content-Type' => 'application/json',
+            ],
+            'json' => [
+                'intent' => 'CAPTURE',
+                'purchase_units' => [
+                    [
+                        'amount' => [
+                            'currency_code' => 'USD',
+                            'value' => $amount
+                        ]
+                    ],
+                ],
+                'application_context' => [
+                    'return_url' => 'http://localhost:5173/payment', // Redirect after payment
+                    'cancel_url' => 'http://localhost:5173/home',  // Redirect if canceled
+                ]
+            ]
+        ]);
 
-        return $response->json();
+        return json_decode($response->getBody(), true);
+    }
+
+    public function capturePayment($orderId)
+    {
+        $accessToken = $this->getAccessToken();
+
+        $response = $this->client->post("{$this->baseUrl}/v2/checkout/orders/{$orderId}/capture", [
+            'headers' => [
+                'Authorization' => "Bearer {$accessToken}",
+                'Content-Type' => 'application/json',
+            ]
+        ]);
+
+        return json_decode($response->getBody(), true);
     }
 }

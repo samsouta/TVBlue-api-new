@@ -37,13 +37,6 @@ return [
         'redirect' => env('GOOGLE_REDIRECT_URI'),
     ],
 
-    'paypal' => [
-        'mode' => env('PAYPAL_MODE', 'sandbox'),
-        'client_id' => env('PAYPAL_CLIENT_ID'),
-        'secret' => env('PAYPAL_SECRET'),
-        'api_url' => env('PAYPAL_API_URL', 'https://api-m.sandbox.paypal.com'),
-    ],
-
     'stripe' => [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),

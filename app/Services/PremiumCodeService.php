@@ -25,6 +25,7 @@ class PremiumCodeService
 
     public function redeemCode($code, $userId)
     {
+
         $premiumCode = PremiumCode::where('code', $code)->first();
 
         if (!$premiumCode) {
@@ -58,10 +59,8 @@ class PremiumCodeService
         $user->save();
 
         return [
-            'status' => 'success', 
+            'status' => 'success',
             'message' => 'Code redeemed successfully and subscription created'
         ];
     }
 }
-
-
