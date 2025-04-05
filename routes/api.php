@@ -20,7 +20,7 @@ use App\Http\Controllers\V1\tags\GetMoviesWithTags;
 use App\Http\Controllers\V1\TagsController;
 use App\Http\Controllers\V1\ViewCountController;
 use App\Http\Controllers\V1\WatchListController;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -77,16 +77,14 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
     Route::post('/movie/{movieId}/comment', [CommentController::class, 'store']);
     Route::post('/watchlist/{movieId}', [WatchListController::class, 'addToWatchlist']);
     Route::delete('/watchlist/{movieId}', [WatchlistController::class, 'removeFromWatchlist']);
-    Route::get('/watchlist', [WatchlistController::class, 'getUserWatchlist']);
-
-    Route::get('/user-profile', function (Request $request) {
-        return response()->json($request->user());
-    });
-    Route::get('/user-profile', [UserController::class, 'getUserProfile']);
+    Route::get('/watchlist', [WatchlistController::class, 'getUserWatchlist']);   
+    
 });
 
-
-
+Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
+    Route::get('/user-profile/{id}', [UserController::class, 'getUserById']);   
+});
+Route::get('/users-chaw', [UserController::class, 'UserProfileAll']);
 
 // Login route for authentication
 Route::prefix('v1')->group(function () {
@@ -105,4 +103,12 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
     Route::post('/payment/capture-payment', [PaymentController::class, 'PayPalCapturePayment']);
     Route::post('/payment/card', [PaymentController::class, 'payWithCard']);
     Route::post('/payment/redeem-premium-code', [PaymentController::class, 'redeemPremiumCode']);
+});
+
+Route::get('/clear-cache', function () {
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
+    return response()->json(['message' => 'Cache cleared!']);
 });

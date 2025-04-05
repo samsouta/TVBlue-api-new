@@ -24,13 +24,11 @@ class AuthController extends Controller
             $token = $user->createToken('auth_token')->plainTextToken;
 
             return response()->json([
-                'user' => $user,
-                'subscription_status' => $user->subscription_status,
-                'is_premium' => $user->subscription_status === 'premium',
+                'status' =>'success',
+                'user_id' => $user->id,
                 'token' => $token,
             ]);
         }
-
         // Return error if authentication fails
         return response()->json([
             'status' => 'error',
@@ -70,7 +68,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'subscription_status' => 'free', // Default status
+            'subscription_status' => 'free',
         ]);
 
         // Create a token for the new user
@@ -81,7 +79,7 @@ class AuthController extends Controller
             'status' => 'success',
             'message' => 'Registration successful',
             'token' => $token,
-            'user' => $user,
+            'user_id' => $user->id,
         ], 201);
     }
 
