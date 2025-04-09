@@ -25,7 +25,7 @@ class UserController extends Controller
 
     public function getUserById($id)
     {
-        try {
+        try {       
             $user = User::findOrFail($id);
             return response()->json([
                 'status' => 'success',

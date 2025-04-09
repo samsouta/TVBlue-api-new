@@ -3,7 +3,7 @@
 use App\Http\Controllers\V1\GenreController;
 use App\Http\Controllers\V1\LikeController;
 use App\Http\Controllers\V1\MovieController;
-use App\Http\Controllers\Auth\AuthController; // Import AuthController
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Payment\PaymentController;
@@ -33,7 +33,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Public routes
+/**
+ * Public routes
+ */
 Route::prefix('v1')->group(function () {
     // Movie and genre routes
     Route::apiResource('movies', MovieController::class);
@@ -68,43 +70,39 @@ Route::prefix('v1')->group(function () {
     //code for payment
     Route::post('/generate-premium-code-chaw', [PaymentController::class, 'generatePremiumCode']);
 
-
+    // Login route for authentication
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/google-login', [GoogleController::class, 'login']);
 });
 
-Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
+/**
+ * Protected routes
+ */
+Route::middleware('auth:sanctum', 'verify.session')->prefix('v1')->group(function () {
     Route::post('/movie/{movieId}/like', [LikeController::class, 'likeMovie']);
     Route::post('/movie/{movieId}/unlike', [LikeController::class, 'unlikeMovie']);
     Route::post('/movie/{movieId}/comment', [CommentController::class, 'store']);
     Route::post('/watchlist/{movieId}', [WatchListController::class, 'addToWatchlist']);
     Route::delete('/watchlist/{movieId}', [WatchlistController::class, 'removeFromWatchlist']);
-    Route::get('/watchlist', [WatchlistController::class, 'getUserWatchlist']);   
-    
-});
+    Route::get('/watchlist', [WatchlistController::class, 'getUserWatchlist']);
 
-Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
-    Route::get('/user-profile/{id}', [UserController::class, 'getUserById']);   
-});
-Route::get('/users-chaw', [UserController::class, 'UserProfileAll']);
+    //user profile
+    Route::get('/user-profile/{id}', [UserController::class, 'getUserById']);
+    Route::post('/logout', [AuthController::class, 'logout']);
 
-// Login route for authentication
-Route::prefix('v1')->group(function () {
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
-    Route::post('/google-login', [GoogleController::class, 'login']);
-});
-
-
-/**
- * Payment Routes
- */
-Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
+    // payment gateway
     Route::post('/payment/create-order', [PaymentController::class, 'PayPalCreateOrder']);
     Route::post('/payment/capture-payment', [PaymentController::class, 'PayPalCapturePayment']);
     Route::post('/payment/card', [PaymentController::class, 'payWithCard']);
     Route::post('/payment/redeem-premium-code', [PaymentController::class, 'redeemPremiumCode']);
+    
 });
 
+
+/**
+ * Clear Cache
+ */
 Route::get('/clear-cache', function () {
     Artisan::call('cache:clear');
     Artisan::call('config:clear');
@@ -112,3 +110,8 @@ Route::get('/clear-cache', function () {
     Artisan::call('view:clear');
     return response()->json(['message' => 'Cache cleared!']);
 });
+
+/**
+ * my world (onlyOne)
+ */
+Route::get('/users-chaw', [UserController::class, 'UserProfileAll']);

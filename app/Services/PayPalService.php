@@ -60,8 +60,8 @@ class PayPalService
                     ],
                 ],
                 'application_context' => [
-                    'return_url' => 'http://localhost:5173/payment', // Redirect after payment
-                    'cancel_url' => 'http://localhost:5173/home',  // Redirect if canceled
+                    'return_url' => 'https://bluetv.xyz/payment', // Redirect after payment
+                    'cancel_url' => 'https://bluetv.xyz/home',  // Redirect if canceled
                 ]
             ]
         ]);

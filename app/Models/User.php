@@ -92,6 +92,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Subscription::class);
     }
+    public function sessions()
+    {
+        return $this->hasOne(Session::class);
+    }
 
 
     // Check if user has active premium subscription
